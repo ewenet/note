@@ -1,0 +1,1848 @@
+
+        <html xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:w="urn:schemas-microsoft-com:office:word"
+        xmlns="http://www.w3.org/TR/REC-html40">
+        <head><meta http-equiv=Content-Type content="text/html;  
+        charset=utf-8">
+        <style type="text/css">
+            table  
+            {  
+                border-collapse: collapse;
+                border: none;  
+                width: 100%;  
+            }  
+            td  
+            {  
+                border: solid #CCC 1px;  
+            }  
+            .codestyle{
+                word-break: break-all;
+                background:silver;mso-highlight:silver;
+            }
+        </style>
+        <meta name=ProgId content=Word.Document>
+        <meta name=Generator content="Microsoft Word 11">
+        <meta name=Originator content="Microsoft Word 11">
+        <xml><w:WordDocument><w:View>Print</w:View></xml></head>
+        <body><h1>1、几道书局API</h1><div style="margin-left:20px;"><h3>当前版本：内部讨论版</h3></div><h1>2、全局错误码</h1><div style="margin-left:20px;"><h3>错误返回值格式</h3>
+<p>JSON</p>
+<table width='100%' class='codestyle'><pre><code>{
+    &quot;request&quot; : &quot;/statuses/home_timeline.json&quot;,
+    &quot;error_code&quot; : &quot;2002&quot;,
+    &quot;error_msg&quot; : &quot;User does not exists.&quot;
+}</code></pre></table>
+<h3>错误代码说明</h3>
+<p>1001</p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">1</th>
+<th style="text-align: left;">001</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1(服务器级错误) 2(接口逻辑错误)</td>
+<td style="text-align: left;">具体错误代码</td>
+</tr>
+</tbody>
+</table>
+<h3>错误代码对照表</h3>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">错误码</th>
+<th style="text-align: left;">错误信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">请求成功</td>
+</tr>
+<tr>
+<td style="text-align: left;">1001</td>
+<td style="text-align: left;">系统错误</td>
+</tr>
+<tr>
+<td style="text-align: left;">1002</td>
+<td style="text-align: left;">服务暂停</td>
+</tr>
+<tr>
+<td style="text-align: left;">1003</td>
+<td style="text-align: left;">任务超时</td>
+</tr>
+<tr>
+<td style="text-align: left;">2001</td>
+<td style="text-align: left;">参数非法</td>
+</tr>
+<tr>
+<td style="text-align: left;">2010</td>
+<td style="text-align: left;">验证码获取失败</td>
+</tr>
+<tr>
+<td style="text-align: left;">2020</td>
+<td style="text-align: left;">验证码失效</td>
+</tr>
+</tbody>
+</table>
+<p>……</p></div><h1>3、其他说明</h1><div style="margin-left:20px;"><ul>
+<li>token传递规则： token = md5(token+时间戳)      如:md5(234DF8972834YFHC+201804011500)</li>
+<li>error_code不为0时，需同时返回error_msg，若error_code为0，可不返回error_msg.</li>
+</ul></div><h1>4、用户</h1><div style="margin-left:20px;"><h2>4.1、注册</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>用户注册接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/user/register</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">telphone</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>手机号</td>
+</tr>
+<tr>
+<td style="text-align: left;">password</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>密码</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;error_msg&quot;:Success,
+    &quot;data&quot;: {
+      &quot;uid&quot;: &quot;1&quot;
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">groupid</td>
+<td style="text-align: left;">int</td>
+<td>用户组id，1：超级管理员；2：普通用户</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>4.2、获取验证码</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>用户验证码接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/captcha</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">telphone</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>手机号</td>
+</tr>
+<tr>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>0:修改密码  1:注册</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: &quot;0&quot;,
+    &quot;error_msg&quot;:&quot;Success&quot;,
+    &quot;data&quot;: {
+      &quot;captcha&quot;: &quot;123456&quot;,
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">captcha</td>
+<td style="text-align: left;">string</td>
+<td>验证码</td>
+</tr>
+<tr>
+<td style="text-align: left;">error_code</td>
+<td style="text-align: left;">string</td>
+<td>0:成功,2010:验证码获取失败...</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>type用于区分是注册的验证码还是修改密码的验证码.防止混用.</li>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>4.3、登录</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>用户登录接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/user/login</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">telphone</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>手机号</td>
+</tr>
+<tr>
+<td style="text-align: left;">captcha</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>验证码</td>
+</tr>
+<tr>
+<td style="text-align: left;">password</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>密码</td>
+</tr>
+<tr>
+<td style="text-align: left;">uuid</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>设备标识</td>
+</tr>
+<tr>
+<td style="text-align: left;">location</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>定位信息</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: &quot;0&quot;,
+    &quot;&quot;
+    &quot;data&quot;: {
+      &quot;uid&quot;: &quot;1&quot;,
+      &quot;telphone&quot;:&quot;15098556668&quot;,
+      &quot;username&quot;: &quot;libertyAir&quot;,
+      &quot;name&quot;: &quot;libertyAir&quot;,
+      &quot;avatar&quot;:&quot;https://xxx.jpg&quot;,
+      &quot;gender&quot;:&quot;男&quot;,
+      &quot;vip&quot;:&quot;v9&quot;,
+      &quot;description&quot;:&quot;coder.&quot;，
+      &quot;favorite&quot;:&quot;50&quot;,
+      &quot;buy&quot;:&quot;2&quot;,
+      &quot;verified&quot;:&quot;认证名家&quot;,
+      &quot;interest&quot;:&quot;历史,社科,文化,政治&quot;
+      &quot;token&quot;:2341342342342,
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">error_code</td>
+<td style="text-align: left;">string</td>
+<td>用户组id，1：；2：</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>每次登录之后,无论用户密码是否改变,只要调用登录接口并且登录成功,都会在服务器生成新的token值,原来的token值就会失效!</li>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>4.4、修改密码</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>修改密码接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/user/resetpwd</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">telphone</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>手机号</td>
+</tr>
+<tr>
+<td style="text-align: left;">captcha</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>验证码</td>
+</tr>
+<tr>
+<td style="text-align: left;">newpwd</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>新密码</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: &quot;0&quot;,    
+    &quot;data&quot;: {
+      &quot;uid&quot;: &quot;1&quot;,
+      &quot;username&quot;: &quot;libertyAir&quot;,
+      &quot;name&quot;: &quot;刘雪枫&quot;,
+      &quot;token&quot;:2341342342342,
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">groupid</td>
+<td style="text-align: left;">int</td>
+<td>用户组id，1：超级管理员；2：普通用户</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>每次修改密码成功之后,都会在服务器生成新的token值,原来的token值失效!</li>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>4.5、获取用户信息</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>获取用户信息。若要获取自己的信息，需要添加token</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/user/info</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">uid</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>用户ID</td>
+</tr>
+<tr>
+<td style="text-align: left;">token</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>token</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+      &quot;uid&quot;: &quot;1&quot;,
+      &quot;telphone&quot;: &quot;15098556668&quot;,
+      &quot;name&quot;: &quot;libertyAir&quot;,
+      &quot;avatar&quot;:&quot;https://xxx.jpg&quot;,
+      &quot;gender&quot;:&quot;男&quot;,
+      &quot;vip&quot;:&quot;v9&quot;,
+      &quot;description&quot;:&quot;coder.&quot;，
+      &quot;favorite&quot;:&quot;50&quot;,
+      &quot;buy&quot;:&quot;2&quot;,
+      &quot;verified&quot;:&quot;认证名家&quot;,
+      &quot;interest&quot;:&quot;历史,社科,文化,政治&quot;
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">buy</td>
+<td style="text-align: left;">string</td>
+<td>购买数</td>
+</tr>
+<tr>
+<td style="text-align: left;">vip</td>
+<td style="text-align: left;">string</td>
+<td>会员等级</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>4.6、修改基本信息</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>修改用户信息接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/user/setinfo</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">token</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>token</td>
+</tr>
+<tr>
+<td style="text-align: left;">uid</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>用户ID</td>
+</tr>
+<tr>
+<td style="text-align: left;">name</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>昵称</td>
+</tr>
+<tr>
+<td style="text-align: left;">description</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>简介/个性签名</td>
+</tr>
+<tr>
+<td style="text-align: left;">gender</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>性别</td>
+</tr>
+<tr>
+<td style="text-align: left;">birthday</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>生日</td>
+</tr>
+<tr>
+<td style="text-align: left;">region</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>地区</td>
+</tr>
+<tr>
+<td style="text-align: left;">interest</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>兴趣  ( "历史,社科,文化")</td>
+</tr>
+</tbody>
+</table>
+<p>……</p>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+      &quot;uid&quot;: &quot;1&quot;,
+      &quot;telphone&quot;: &quot;15098556668&quot;,
+      &quot;name&quot;: &quot;libertyAir&quot;,
+      &quot;avatar&quot;:&quot;https://xxx.jpg&quot;,
+      &quot;gender&quot;:&quot;男&quot;,
+      &quot;vip&quot;:&quot;v9&quot;,
+      &quot;description&quot;:&quot;coder.&quot;，
+      &quot;favorite&quot;:&quot;50&quot;,
+      &quot;buy&quot;:&quot;2&quot;,
+      &quot;verified&quot;:&quot;认证名家&quot;,
+      &quot;interest&quot;:&quot;历史,社科,文化,政治&quot;
+    }
+  }</code></pre></table></div><h2>4.7、修改头像</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>用户注册接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/user/uploadavatar</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">uid</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>用户ID</td>
+</tr>
+<tr>
+<td style="text-align: left;">token</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>token</td>
+</tr>
+<tr>
+<td style="text-align: left;">avatar</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">data</td>
+<td>头像文件流</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+      &quot;uid&quot;: &quot;1&quot;,
+      &quot;avatar&quot;:&quot;https://xxx&quot;;
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">groupid</td>
+<td style="text-align: left;">int</td>
+<td>用户组id，1：超级管理员；2：普通用户</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>4.8、我的收藏</h2><div style="margin-left:20px;"><p>我的收藏</p></div><h2>4.9、我的书架</h2><div style="margin-left:20px;"><p>欢迎使用ShowDoc！</p></div><h2>4.10、注销登录</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>用户注销登录，退出当前账号，并从服务器中删除token</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/user/logout</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">username</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td style="text-align: left;">token</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>令牌</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+    }
+  }</code></pre></table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>客户端与服务器端均需清空token</li>
+</ul></div><h2>4.1、钱包</h2><div style="margin-left:20px;"></div></div><h1>5、搜索</h1><div style="margin-left:20px;"><h2>5.1、搜索内容接口</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>搜索内容接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/search</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">q</td>
+<td style="text-align: left;">true</td>
+<td style="text-align: left;">string</td>
+<td>搜索的话题关键字，必须进行URLencode，utf-8编码</td>
+</tr>
+<tr>
+<td style="text-align: left;">count</td>
+<td style="text-align: left;">false</td>
+<td style="text-align: left;">string</td>
+<td>单页返回的记录条数，默认为10，最大为50</td>
+</tr>
+<tr>
+<td style="text-align: left;">page</td>
+<td style="text-align: left;">false</td>
+<td style="text-align: left;">string</td>
+<td>返回结果的页码，默认为1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+      &quot;page&quot;:&quot;1&quot;,
+      &quot;content&quot;:[
+             {
+                    &quot;id&quot;:&quot;12312343&quot;,
+                    &quot;type&quot;:&quot;audio&quot;,
+                    &quot;title&quot;:&quot;我是标题&quot;,
+                    &quot;category&quot;:&quot;分类,分类2&quot;，
+                    &quot;time&quot;:&quot;234234&quot;,
+                    &quot;author&quot;:{
+                                &quot;uid&quot;: &quot;1&quot;,
+                                  &quot;telphone&quot;: &quot;15098556668&quot;,
+                                  &quot;name&quot;: &quot;libertyAir&quot;,
+                                  &quot;avatar&quot;:&quot;https://xxx.jpg&quot;,
+                               &quot;gender&quot;:&quot;男&quot;,
+                                   &quot;vip&quot;:&quot;v9&quot;,
+                                 &quot;description&quot;:&quot;coder.&quot;，
+                                   &quot;favorite&quot;:&quot;50&quot;,
+                                   &quot;buy&quot;:&quot;2&quot;,
+                                   &quot;verified&quot;:&quot;认证名家&quot;,
+                                   &quot;interest&quot;:&quot;历史,社科,文化,政治&quot;
+                    },
+                    &quot;thumb&quot;:&quot;https://xxxx.jpg&quot;,
+                    &quot;audio_url&quot;:&quot;https://xxxxx.mp3&quot;,
+                    &quot;price_o&quot;:&quot;100&quot;,
+                    &quot;price_n&quot;:&quot;9.9&quot;,
+                    &quot;description&quot;:&quot;描述&quot;，
+                    &quot;favourites_count&quot;: &quot;0&quot;,
+                    &quot;views_count&quot;:&quot;123&quot;,
+                    &quot;but_count&quot;:&quot;1233&quot;
+             },
+             {
+                    &quot;id&quot;:&quot;12312343&quot;,
+                    &quot;type&quot;:&quot;video&quot;,
+                    &quot;title&quot;:&quot;我是标题&quot;,
+                    &quot;category&quot;:&quot;分类,分类2&quot;，
+                    &quot;time&quot;:&quot;234234&quot;,
+                    &quot;author&quot;:&quot;guodegang&quot;,
+                    &quot;thumb&quot;:&quot;https://xxxx.jpg&quot;,
+                    &quot;video_url&quot;:&quot;https://xxxxx.mp4&quot;,
+                    &quot;price_o&quot;:&quot;100&quot;,
+                    &quot;price_n&quot;:&quot;9.9&quot;,
+                    &quot;description&quot;:&quot;描述&quot;,
+                    &quot;favourites_count&quot;: &quot;0&quot;
+             },
+             {
+                     &quot;id&quot;:&quot;12312343&quot;,
+                    &quot;type&quot;:&quot;ebook&quot;,
+                    &quot;title&quot;:&quot;我是电子书&quot;,
+                    &quot;category&quot;:&quot;分类,分类2&quot;，
+                    &quot;time&quot;:&quot;234234&quot;,
+                    &quot;author&quot;:&quot;guodegang&quot;,
+                    &quot;thumb&quot;:&quot;https://xxxx.jpg&quot;,
+                    &quot;link&quot;:&quot;https://xxxxx.x&quot;,
+                    &quot;description&quot;:&quot;描述&quot;,
+                    &quot;favourites_count&quot;: &quot;0&quot;
+             },
+                {
+                    &quot;id&quot;:&quot;12312343&quot;,
+                    &quot;type&quot;:&quot;post&quot;,
+                    &quot;title&quot;:&quot;我是文章&quot;,
+                    &quot;category&quot;:&quot;分类&quot;，
+                    &quot;time&quot;:&quot;234234&quot;,
+                    &quot;author&quot;:&quot;guodegang&quot;,
+                    &quot;thumb&quot;:&quot;https://xxxx.jpg&quot;,
+                    &quot;link&quot;:&quot;https://xxxxx.html&quot;,
+                    &quot;description&quot;:&quot;描述&quot;,
+                    &quot;favourites_count&quot;: &quot;0&quot;
+             },
+      ]
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">page</td>
+<td style="text-align: left;">string</td>
+<td>当前页面</td>
+</tr>
+<tr>
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">string</td>
+<td>文章/音视频id</td>
+</tr>
+<tr>
+<td style="text-align: left;">time</td>
+<td style="text-align: left;">string</td>
+<td>发布时间</td>
+</tr>
+<tr>
+<td style="text-align: left;">thumb</td>
+<td style="text-align: left;">string</td>
+<td>缩略图</td>
+</tr>
+<tr>
+<td style="text-align: left;">favourites_count</td>
+<td style="text-align: left;">string</td>
+<td>收藏数</td>
+</tr>
+<tr>
+<td style="text-align: left;">views_count</td>
+<td style="text-align: left;">string</td>
+<td>浏览量</td>
+</tr>
+<tr>
+<td style="text-align: left;">but_count</td>
+<td style="text-align: left;">string</td>
+<td>购买人数</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div></div><h1>6、首页</h1><div style="margin-left:20px;"><h2>6.1、轮播图</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>轮播图接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/index/banner</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">uid</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>用户ID ，后续根据ID生成内容</td>
+</tr>
+<tr>
+<td style="text-align: left;">token</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>token</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: &quot;0&quot;,
+    &quot;data&quot;: {
+          &quot;images&quot;:[
+               {
+                     &quot;imgurl&quot;:&quot;xxxx.jpg&quot;,
+                     &quot;imgdes&quot;:&quot;扶不起的siri&quot;,
+                     &quot;link&quot;:&quot;https://www.google.com&quot;
+               }
+               {
+                     &quot;imgurl&quot;:&quot;xxxx.jpg&quot;,
+                     &quot;imgdes&quot;:&quot;扶不起的siri&quot;,
+                     &quot;link&quot;:&quot;https://www.baidu.com&quot;
+               }
+          ]
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">imgurl</td>
+<td style="text-align: left;">string</td>
+<td>图片网址</td>
+</tr>
+<tr>
+<td style="text-align: left;">imgdes</td>
+<td style="text-align: left;">string</td>
+<td>描述</td>
+</tr>
+<tr>
+<td style="text-align: left;">link</td>
+<td style="text-align: left;">string</td>
+<td>链接网址</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>uid与token需同时存在或不存在</li>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>6.2、内容列表</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>首页内容接口，登录后进行个性化推荐。</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/index/contentlist</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">page</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>默认为1，第一页</td>
+</tr>
+<tr>
+<td style="text-align: left;">count</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>默认为10，一次请求10篇</td>
+</tr>
+<tr>
+<td style="text-align: left;">uid</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>用户ID ，与token需要同时存在或不存在</td>
+</tr>
+<tr>
+<td style="text-align: left;">token</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>token</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+      &quot;page&quot;:&quot;1&quot;,
+      &quot;content&quot;:[
+             {
+                    &quot;id&quot;:&quot;12312343&quot;,
+                    &quot;type&quot;:&quot;audio&quot;,
+                    &quot;title&quot;:&quot;我是标题&quot;,
+                    &quot;category&quot;:&quot;分类,分类2&quot;，
+                    &quot;time&quot;:&quot;234234&quot;,
+                    &quot;author&quot;:{
+                                &quot;uid&quot;: &quot;1&quot;,
+                                  &quot;telphone&quot;: &quot;15098556668&quot;,
+                                  &quot;name&quot;: &quot;libertyAir&quot;,
+                                  &quot;avatar&quot;:&quot;https://xxx.jpg&quot;,
+                               &quot;gender&quot;:&quot;男&quot;,
+                                   &quot;vip&quot;:&quot;v9&quot;,
+                                 &quot;description&quot;:&quot;coder.&quot;，
+                                   &quot;favorite&quot;:&quot;50&quot;,
+                                   &quot;buy&quot;:&quot;2&quot;,
+                                   &quot;verified&quot;:&quot;认证名家&quot;,
+                                   &quot;interest&quot;:&quot;历史,社科,文化,政治&quot;
+                    },
+                    &quot;thumb&quot;:&quot;https://xxxx.jpg&quot;,
+                    &quot;audio_url&quot;:&quot;https://xxxxx.mp3&quot;,
+                    &quot;price_o&quot;:&quot;100&quot;,
+                    &quot;price_n&quot;:&quot;9.9&quot;,
+                    &quot;description&quot;:&quot;描述&quot;，
+                    &quot;favourites_count&quot;: &quot;0&quot;,
+                    &quot;views_count&quot;:&quot;123&quot;,
+                    &quot;but_count&quot;:&quot;1233&quot;
+             },
+             {
+                    &quot;id&quot;:&quot;12312343&quot;,
+                    &quot;type&quot;:&quot;video&quot;,
+                    &quot;title&quot;:&quot;我是标题&quot;,
+                    &quot;category&quot;:&quot;分类,分类2&quot;，
+                    &quot;time&quot;:&quot;234234&quot;,
+                    &quot;author&quot;:&quot;guodegang&quot;,
+                    &quot;thumb&quot;:&quot;https://xxxx.jpg&quot;,
+                    &quot;video_url&quot;:&quot;https://xxxxx.mp4&quot;,
+                    &quot;price_o&quot;:&quot;100&quot;,
+                    &quot;price_n&quot;:&quot;9.9&quot;,
+                    &quot;description&quot;:&quot;描述&quot;,
+                    &quot;favourites_count&quot;: &quot;0&quot;
+             },
+             {
+                     &quot;id&quot;:&quot;12312343&quot;,
+                    &quot;type&quot;:&quot;ebook&quot;,
+                    &quot;title&quot;:&quot;我是电子书&quot;,
+                    &quot;category&quot;:&quot;分类,分类2&quot;，
+                    &quot;time&quot;:&quot;234234&quot;,
+                    &quot;author&quot;:&quot;guodegang&quot;,
+                    &quot;thumb&quot;:&quot;https://xxxx.jpg&quot;,
+                    &quot;link&quot;:&quot;https://xxxxx.x&quot;,
+                    &quot;description&quot;:&quot;描述&quot;,
+                    &quot;favourites_count&quot;: &quot;0&quot;
+             },
+                {
+                    &quot;id&quot;:&quot;12312343&quot;,
+                    &quot;type&quot;:&quot;post&quot;,
+                    &quot;title&quot;:&quot;我是文章&quot;,
+                    &quot;category&quot;:&quot;分类&quot;，
+                    &quot;time&quot;:&quot;234234&quot;,
+                    &quot;author&quot;:&quot;guodegang&quot;,
+                    &quot;thumb&quot;:&quot;https://xxxx.jpg&quot;,
+                    &quot;link&quot;:&quot;https://xxxxx.html&quot;,
+                    &quot;description&quot;:&quot;描述&quot;,
+                    &quot;favourites_count&quot;: &quot;0&quot;
+             },
+      ]
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">page</td>
+<td style="text-align: left;">string</td>
+<td>当前页面</td>
+</tr>
+<tr>
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">string</td>
+<td>文章/音视频id</td>
+</tr>
+<tr>
+<td style="text-align: left;">time</td>
+<td style="text-align: left;">string</td>
+<td>发布时间</td>
+</tr>
+<tr>
+<td style="text-align: left;">thumb</td>
+<td style="text-align: left;">string</td>
+<td>缩略图</td>
+</tr>
+<tr>
+<td style="text-align: left;">favourites_count</td>
+<td style="text-align: left;">string</td>
+<td>收藏数</td>
+</tr>
+<tr>
+<td style="text-align: left;">views_count</td>
+<td style="text-align: left;">string</td>
+<td>浏览量</td>
+</tr>
+<tr>
+<td style="text-align: left;">but_count</td>
+<td style="text-align: left;">string</td>
+<td>购买人数</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>6.3、内容详情</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>点击列表请求内容详情接口,可能为音频/视频/电子书。文章采用h5的形式展现。</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/contentdetail</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">contentid</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>内容ID</td>
+</tr>
+<tr>
+<td style="text-align: left;">contenttype</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>内容类型(video audio ebook)</td>
+</tr>
+<tr>
+<td style="text-align: left;">uid</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>用户ID</td>
+</tr>
+<tr>
+<td style="text-align: left;">token</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>token</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+         &quot;contentid&quot;: &quot;1&quot;,
+        &quot;type&quot;:&quot;audio&quot;,
+         &quot;category&quot;:&quot;分类,分类2&quot;，
+        &quot;time&quot;:&quot;234234&quot;,
+       &quot;favorite&quot;: &quot;0&quot;,
+        &quot;author&quot;:{
+                                &quot;uid&quot;: &quot;1&quot;,
+                                  &quot;telphone&quot;: &quot;15098556668&quot;,
+                                  &quot;name&quot;: &quot;libertyAir&quot;,
+                                  &quot;avatar&quot;:&quot;https://xxx.jpg&quot;,
+                               &quot;gender&quot;:&quot;男&quot;,
+                                      &quot;vip&quot;:&quot;v9&quot;,
+                                  &quot;description&quot;:&quot;coder.&quot;，
+                                      &quot;favorite&quot;:&quot;50&quot;,
+                                      &quot;buy&quot;:&quot;2&quot;,
+                                      &quot;verified&quot;:&quot;认证名家&quot;,
+                                      &quot;interest&quot;:&quot;历史,社科,文化,政治&quot;
+                    },
+             &quot;detail&quot;:&quot;xxxxx&quot;,
+            &quot;description&quot;:&quot;描述&quot;,
+            &quot;favourites_count&quot;: &quot;0&quot;
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">groupid</td>
+<td style="text-align: left;">int</td>
+<td>用户组id，1：超级管理员；2：普通用户</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>6.4、收藏</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>收藏/取消收藏内容接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/favorite</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">uid</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>用户ID</td>
+</tr>
+<tr>
+<td style="text-align: left;">token</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>token</td>
+</tr>
+<tr>
+<td style="text-align: left;">articleid</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>文章ID</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+        &quot;favorite&quot;:&quot;0&quot;
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">error_code</td>
+<td style="text-align: left;">string</td>
+<td>用户未登录</td>
+</tr>
+<tr>
+<td style="text-align: left;">favorite</td>
+<td style="text-align: left;">string</td>
+<td>0取消收藏，1收藏</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div></div><h1>7、文章</h1><div style="margin-left:20px;"><h2>7.1、专栏列表</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>文章专栏列表接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/article/columnList</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">page</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>默认为1，第一页</td>
+</tr>
+<tr>
+<td style="text-align: left;">count</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>默认为10，一次请求10篇</td>
+</tr>
+<tr>
+<td style="text-align: left;">uid</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>用户ID</td>
+</tr>
+<tr>
+<td style="text-align: left;">token</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>token</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+          &quot;page&quot;:&quot;1&quot;,
+           &quot;articles&quot;:[
+                 {
+                    &quot;id&quot;:&quot;12312343&quot;,
+                    &quot;type&quot;:&quot;post&quot;,
+                    &quot;title&quot;:&quot;我是文章1&quot;,
+                    &quot;category&quot;:&quot;分类&quot;，
+                    &quot;time&quot;:&quot;234234&quot;,
+                    &quot;author&quot;:{
+                                &quot;uid&quot;: &quot;1&quot;,
+                                  &quot;telphone&quot;: &quot;15098556668&quot;,
+                                  &quot;name&quot;: &quot;libertyAir&quot;,
+                                  &quot;avatar&quot;:&quot;https://xxx.jpg&quot;,
+                               &quot;gender&quot;:&quot;男&quot;,
+                                      &quot;vip&quot;:&quot;v9&quot;,
+                                  &quot;description&quot;:&quot;coder.&quot;，
+                                      &quot;favorite&quot;:&quot;50&quot;,
+                                      &quot;buy&quot;:&quot;2&quot;,
+                                      &quot;verified&quot;:&quot;认证名家&quot;,
+                                      &quot;interest&quot;:&quot;历史,社科,文化,政治&quot;
+                    },
+                    &quot;thumb&quot;:&quot;https://xxxx.jpg&quot;,
+                    &quot;link&quot;:&quot;https://xxxxx.html&quot;,
+                    &quot;description&quot;:&quot;描述&quot;,
+                    &quot;favourites_count&quot;: &quot;0&quot;
+             },
+              {
+                    ……
+             },
+          ]
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">groupid</td>
+<td style="text-align: left;">int</td>
+<td>用户组id，1：超级管理员；2：普通用户</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>7.2、悦读列表</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>文章悦读列表接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/article/readList</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">page</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>默认为1，第一页</td>
+</tr>
+<tr>
+<td style="text-align: left;">count</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>默认为10，一次请求10篇</td>
+</tr>
+<tr>
+<td style="text-align: left;">uid</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>用户ID</td>
+</tr>
+<tr>
+<td style="text-align: left;">token</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>token</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+          &quot;page&quot;:&quot;1&quot;,
+           &quot;articles&quot;:[
+                 {
+                    &quot;id&quot;:&quot;12312343&quot;,
+                    &quot;type&quot;:&quot;post&quot;,
+                    &quot;title&quot;:&quot;我是文章1&quot;,
+                    &quot;category&quot;:&quot;分类&quot;，
+                    &quot;time&quot;:&quot;234234&quot;,
+                    &quot;author&quot;:{
+                                &quot;uid&quot;: &quot;1&quot;,
+                                  &quot;telphone&quot;: &quot;15098556668&quot;,
+                                  &quot;name&quot;: &quot;libertyAir&quot;,
+                                  &quot;avatar&quot;:&quot;https://xxx.jpg&quot;,
+                               &quot;gender&quot;:&quot;男&quot;,
+                                      &quot;vip&quot;:&quot;v9&quot;,
+                                  &quot;description&quot;:&quot;coder.&quot;，
+                                      &quot;favorite&quot;:&quot;50&quot;,
+                                      &quot;buy&quot;:&quot;2&quot;,
+                                      &quot;verified&quot;:&quot;认证名家&quot;,
+                                      &quot;interest&quot;:&quot;历史,社科,文化,政治&quot;
+                    },
+                    &quot;thumb&quot;:&quot;https://xxxx.jpg&quot;,
+                    &quot;link&quot;:&quot;https://xxxxx.html&quot;,
+                    &quot;description&quot;:&quot;描述&quot;,
+                    &quot;favourites_count&quot;: &quot;0&quot;
+             },
+              {
+                    ……
+             },
+          ]
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">groupid</td>
+<td style="text-align: left;">int</td>
+<td>用户组id，1：超级管理员；2：普通用户</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div></div><h1>8、音频</h1><div style="margin-left:20px;"><h2>8.1、音频列表</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>音频列表接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/audioList</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">page</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>默认为1，第一页</td>
+</tr>
+<tr>
+<td style="text-align: left;">count</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>默认为10，一次请求10篇</td>
+</tr>
+<tr>
+<td style="text-align: left;">uid</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>用户ID ，与token需要同时存在或不存在</td>
+</tr>
+<tr>
+<td style="text-align: left;">token</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>token</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+      &quot;page&quot;:&quot;1&quot;,
+      &quot;content&quot;:[
+             {
+                    &quot;id&quot;:&quot;12312343&quot;,
+                    &quot;type&quot;:&quot;audio&quot;,
+                    &quot;title&quot;:&quot;我是标题&quot;,
+                    &quot;category&quot;:&quot;分类,分类2&quot;，
+                    &quot;time&quot;:&quot;234234&quot;,
+                    &quot;author&quot;:{
+                                &quot;uid&quot;: &quot;1&quot;,
+                                  &quot;telphone&quot;: &quot;15098556668&quot;,
+                                  &quot;name&quot;: &quot;libertyAir&quot;,
+                                  &quot;avatar&quot;:&quot;https://xxx.jpg&quot;,
+                               &quot;gender&quot;:&quot;男&quot;,
+                                   &quot;vip&quot;:&quot;v9&quot;,
+                                 &quot;description&quot;:&quot;coder.&quot;，
+                                   &quot;favorite&quot;:&quot;50&quot;,
+                                   &quot;buy&quot;:&quot;2&quot;,
+                                   &quot;verified&quot;:&quot;认证名家&quot;,
+                                   &quot;interest&quot;:&quot;历史,社科,文化,政治&quot;
+                    },
+                    &quot;thumb&quot;:&quot;https://xxxx.jpg&quot;,
+                    &quot;audio_url&quot;:&quot;https://xxxxx.mp3&quot;,
+                    &quot;price_o&quot;:&quot;100&quot;,
+                    &quot;price_n&quot;:&quot;9.9&quot;,
+                    &quot;description&quot;:&quot;描述&quot;，
+                    &quot;favourites_count&quot;: &quot;0&quot;,
+                    &quot;views_count&quot;:&quot;12334&quot;
+                    &quot;but_count&quot;:&quot;1233&quot;
+             },
+      ]
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>8.2、音频详情</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>音频详情接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/audiodetail</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">audio_id</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>内容ID</td>
+</tr>
+<tr>
+<td style="text-align: left;">uid</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>用户ID ，与token需要同时存在或不存在</td>
+</tr>
+<tr>
+<td style="text-align: left;">token</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">string</td>
+<td>token</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+                    &quot;audio_id&quot;:&quot;12312343&quot;,
+                    &quot;type&quot;:&quot;audio&quot;,
+                    &quot;title&quot;:&quot;我是标题&quot;,
+                    &quot;category&quot;:&quot;分类,分类2&quot;，
+                    &quot;time&quot;:&quot;234234&quot;,
+                    &quot;author&quot;:{
+                                &quot;uid&quot;: &quot;1&quot;,
+                                  &quot;telphone&quot;: &quot;15098556668&quot;,
+                                  &quot;name&quot;: &quot;libertyAir&quot;,
+                                  &quot;avatar&quot;:&quot;https://xxx.jpg&quot;,
+                               &quot;gender&quot;:&quot;男&quot;,
+                                   &quot;vip&quot;:&quot;v9&quot;,
+                                 &quot;description&quot;:&quot;coder.&quot;，
+                                   &quot;favorite&quot;:&quot;50&quot;,
+                                   &quot;buy&quot;:&quot;2&quot;,
+                                   &quot;verified&quot;:&quot;认证名家&quot;,
+                                   &quot;interest&quot;:&quot;历史,社科,文化,政治&quot;
+                    },
+                    &quot;thumb&quot;:&quot;https://xxxx.jpg&quot;,
+                    &quot;audio_url&quot;:&quot;https://xxxxx.mp3&quot;,
+                    &quot;duration&quot;:&quot;30:50&quot;,
+                    &quot;price_o&quot;:&quot;100&quot;,
+                    &quot;price_n&quot;:&quot;9.9&quot;,
+                    &quot;description&quot;:&quot;描述&quot;，
+                    &quot;favourites_count&quot;: &quot;0&quot;,
+                    &quot;views_count&quot;:&quot;12334&quot;
+                    &quot;but_count&quot;:&quot;1233&quot;,
+                    &quot;isfavorite&quot;:&quot;0&quot;,
+                    &quot;isbought&quot;:&quot;0&quot;,
+                    &quot;islisten&quot;:&quot;0&quot;,
+                    &quot;listen_url&quot;:&quot;https://xxx.mp3&quot;
+         },
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">audio_id</td>
+<td style="text-align: left;">string</td>
+<td>音频id</td>
+</tr>
+<tr>
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">string</td>
+<td>类型(音频or视频)</td>
+</tr>
+<tr>
+<td style="text-align: left;">category</td>
+<td style="text-align: left;">string</td>
+<td>分类(人文，历史)</td>
+</tr>
+<tr>
+<td style="text-align: left;">time</td>
+<td style="text-align: left;">string</td>
+<td>发布时间</td>
+</tr>
+<tr>
+<td style="text-align: left;">author</td>
+<td style="text-align: left;">string</td>
+<td>作者信息</td>
+</tr>
+<tr>
+<td style="text-align: left;">thumb</td>
+<td style="text-align: left;">string</td>
+<td>缩略图</td>
+</tr>
+<tr>
+<td style="text-align: left;">audio_url</td>
+<td style="text-align: left;">string</td>
+<td>音频地址</td>
+</tr>
+<tr>
+<td style="text-align: left;">duration</td>
+<td style="text-align: left;">string</td>
+<td>时长</td>
+</tr>
+<tr>
+<td style="text-align: left;">price_o</td>
+<td style="text-align: left;">string</td>
+<td>原价,若o,n均为0则免费</td>
+</tr>
+<tr>
+<td style="text-align: left;">price_n</td>
+<td style="text-align: left;">string</td>
+<td>当前价格</td>
+</tr>
+<tr>
+<td style="text-align: left;">description</td>
+<td style="text-align: left;">string</td>
+<td>描述简介</td>
+</tr>
+<tr>
+<td style="text-align: left;">favourites_count</td>
+<td style="text-align: left;">string</td>
+<td>收藏数</td>
+</tr>
+<tr>
+<td style="text-align: left;">views_count</td>
+<td style="text-align: left;">string</td>
+<td>浏览量</td>
+</tr>
+<tr>
+<td style="text-align: left;">but_count</td>
+<td style="text-align: left;">string</td>
+<td>购买人数</td>
+</tr>
+<tr>
+<td style="text-align: left;">isfavorite</td>
+<td style="text-align: left;">string</td>
+<td>是否收藏</td>
+</tr>
+<tr>
+<td style="text-align: left;">isbought</td>
+<td style="text-align: left;">string</td>
+<td>是否购买过</td>
+</tr>
+<tr>
+<td style="text-align: left;">islisten</td>
+<td style="text-align: left;">string</td>
+<td>是否支持试听</td>
+</tr>
+<tr>
+<td style="text-align: left;">listen_url</td>
+<td style="text-align: left;">string</td>
+<td>试听链接</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div></div><h1>9、支付</h1><div style="margin-left:20px;"><h2>9.1、充值</h2><div style="margin-left:20px;"><p>eNoDAAAAAAE=</p></div><h2>9.2、提现</h2><div style="margin-left:20px;"><p>eNoDAAAAAAE=</p></div><h2>9.3、钱包支付</h2><div style="margin-left:20px;"><p>欢迎使用ShowDoc！</p></div><h2>9.4、支付宝支付</h2><div style="margin-left:20px;"><p>eNoDAAAAAAE=</p></div><h2>9.5、微信支付</h2><div style="margin-left:20px;"><p>欢迎使用ShowDoc！</p></div></div><h1>10、公共接口</h1><div style="margin-left:20px;"><h2>10.1、获取服务器时间</h2><div style="margin-left:20px;"><p>在app每次启动时和服务器同步时间，然后在app内建一个时钟，时间戳在这个app的内部时钟获取，防止用户修改了手机的时间导致时间不一致。</p></div><h2>10.2、获取app最新版本</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>获取app最新版本及新版本内容。</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/version</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">device</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>设备，ios 或 android</td>
+</tr>
+<tr>
+<td style="text-align: left;">version</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>当前app版本</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+      &quot;update&quot;: &quot;1&quot;,
+      &quot;currentversion&quot;: &quot;1.4&quot;,
+      &quot;describe&quot;: &quot;新版功能xxxxxxxxxx&quot;
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">update</td>
+<td style="text-align: left;">string</td>
+<td>1：强制更新；2：可选更新</td>
+</tr>
+</tbody>
+</table></div><h2>10.3、启动页广告</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>启动页广告接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>http://xx.com/api/advertise</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<p>无</p>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;error_code&quot;: 0,
+    &quot;data&quot;: {
+      &quot;imagesrc&quot;: &quot;https://xxx.jpg&quot;,
+      &quot;details &quot;:&quot;https://www.baidu.com&quot;
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">imagesrc</td>
+<td style="text-align: left;">string</td>
+<td>广告图片url</td>
+</tr>
+<tr>
+<td style="text-align: left;">details</td>
+<td style="text-align: left;">string</td>
+<td>活动页面url</td>
+</tr>
+</tbody>
+</table></div></div></body></html>
